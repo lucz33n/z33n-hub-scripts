@@ -213,7 +213,7 @@ MainTab.CreateToggle("Complete Obbies", function(state)
     end
 end)
 
-MainTab.CreateButton("Run Anti-AFK Script", function()
+MiscTab.CreateButton("Run Anti-AFK Script", function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk.lua'))()
     print("Anti-AFK Script Executed")
 end)
