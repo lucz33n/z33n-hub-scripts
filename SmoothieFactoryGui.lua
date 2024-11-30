@@ -36,21 +36,25 @@ end
 local function loopRebirth()
     while _G.SMOOTHIEREBIRTH do
         local success, errorMessage = pcall(function()
-            print("Trying to open rebirth menu...")
-            firetouchinterest(
-                game:GetService('Players').LocalPlayer.Character.HumanoidRootPart,
-                workspace.Tycoons.Tycoon1.RebirthButtons:GetChildren()[5].Button,
-                0
-            )
+            local playerCharacter = game:GetService("Players").LocalPlayer.Character
+            local humanoidRootPart = playerCharacter and playerCharacter:FindFirstChild("HumanoidRootPart")
+            local rebirthButton = workspace.Tycoons.Tycoon1.RebirthButtons:GetChildren()[5].Button
+
+            if humanoidRootPart and rebirthButton then
+                
+                rebirthButton.CFrame = humanoidRootPart.CFrame * CFrame.new(0, -3, 0)
+                print("Rebirth button teleported to player.")
+            end
         end)
 
         if not success then
-            warn("No rebirth button yet.....")
+            warn("no rebirth button yet.")
         end
 
-        wait(10)
+        wait(1) -- Check and teleport every second
     end
 end
+
 
 local function prepareButtons()
     local player = game:GetService("Players").LocalPlayer
