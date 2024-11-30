@@ -115,7 +115,6 @@ local function completeObbies()
             for _, button in pairs(obbyButtons) do
                 if button:FindFirstChild("TouchInterest") then
                     firetouchinterest(humanoidRootPart, button, 0)
-                    print("Completed obby: " .. button.Parent.Parent.Name)
                 end
             end
         end
@@ -170,4 +169,4 @@ MainTab.CreateButton("Run Anti-AFK Script", function()
     print("Anti-AFK Script Executed")
 end)
 
-MainTab.CreateLabel("Toggle auto crate collection, rebirth attempts, obby completion, and touch interest.")
+MainTab.CreateLabel("made by z33n")
