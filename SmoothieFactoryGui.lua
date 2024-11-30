@@ -1,27 +1,20 @@
--- Remove any existing GUI
 if _G.CrateCollectorUI then
     _G.CrateCollectorUI:Destroy()
     _G.CrateCollectorUI = nil
 end
 
--- Load the library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucz33n/z33n-ui-library/refs/heads/main/library.lua"))()
 
--- Create the main GUI window
-local Window = Library.Window('Smoothie Factory Tycoon')
+local Window = Library.Window('Game Controls')
 
--- Keep a reference to the GUI for reloading
-_G.CrateCollectorUI = Window.Frame -- Assuming the library exposes a `Frame` property for the main window
+_G.CrateCollectorUI = Window.Frame
 
--- Create a Tab
-local MainTab = Window.CreateTab('Main')
+local MainTab = Window.CreateTab('Main Controls')
 
--- Global variables to control the loops
 _G.SMOOTHIEAUTOCRATES = false
 _G.SMOOTHIEREBIRTH = false
-_G.autoBuy = false
+_G.touchInterest = false
 
--- Function to handle crate interaction
 local function interactWithCrates()
     while _G.SMOOTHIEAUTOCRATES do
         local playerCharacter = game.Players.LocalPlayer.Character
@@ -39,12 +32,10 @@ local function interactWithCrates()
     end
 end
 
--- Function to handle rebirth attempts
 local function loopRebirth()
     while _G.SMOOTHIEREBIRTH do
         local success, errorMessage = pcall(function()
             print("Trying to open rebirth menu...")
-            -- Trigger the rebirth button using firetouchinterest
             firetouchinterest(
                 game:GetService('Players').LocalPlayer.Character.HumanoidRootPart,
                 workspace.Tycoons.Tycoon1.RebirthButtons:GetChildren()[5].Button,
@@ -56,11 +47,10 @@ local function loopRebirth()
             warn("No rebirth button yet.....")
         end
 
-        wait(10) -- Wait 10 seconds before the next attempt
+        wait(10)
     end
 end
 
--- Function to prepare buttons for touch interaction
 local function prepareButtons()
     local player = game:GetService("Players").LocalPlayer
     local tycoonName = player.Values.Plot.Value.Name
@@ -82,12 +72,11 @@ local function prepareButtons()
     end
 end
 
--- Function to handle touch interest
-local function runAutoBuy()
+local function fireTouchInterests()
     local player = game:GetService("Players").LocalPlayer
     local tycoonName = player.Values.Plot.Value.Name
 
-    while _G.autoBuy do
+    while _G.touchInterest do
         local playerCharacter = player.Character
         local humanoidRootPart = playerCharacter and playerCharacter:FindFirstChild("HumanoidRootPart")
 
@@ -108,10 +97,8 @@ local function runAutoBuy()
     end
 end
 
--- Prepare buttons initially
 prepareButtons()
 
--- Create Toggles in the GUI
 MainTab.CreateToggle("Enable Auto Crates", function(state)
     _G.SMOOTHIEAUTOCRATES = state
     if state then
@@ -142,10 +129,9 @@ MainTab.CreateToggle("Enable Auto Buy", function(state)
     end
 end)
 
-MainTab.CreateButton("Anti AFK", function()
-	print("AntiAFK Loaded.")
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk"))()
-end
+MainTab.CreateButton("Run Anti-AFK Script", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk.lua'))()
+    print("Anti-AFK Script Executed")
+end)
 
--- Add a label for clarity
-MainTab.CreateLabel("Made by Z33N - Last updated on 11/29/2024")
+MainTab.CreateLabel("Toggle auto crate collection, rebirth attempts, and touch interest.")
