@@ -8,18 +8,18 @@ end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lucz33n/z33n-ui-library/refs/heads/main/library.lua"))()
 
 -- Create the main GUI window
-local Window = Library.Window('Game Controls')
+local Window = Library.Window('Smoothie Factory Tycoon')
 
 -- Keep a reference to the GUI for reloading
 _G.CrateCollectorUI = Window.Frame -- Assuming the library exposes a `Frame` property for the main window
 
 -- Create a Tab
-local MainTab = Window.CreateTab('Main Controls')
+local MainTab = Window.CreateTab('Main')
 
 -- Global variables to control the loops
 _G.SMOOTHIEAUTOCRATES = false
 _G.SMOOTHIEREBIRTH = false
-_G.touchInterest = false
+_G.autoBuy = false
 
 -- Function to handle crate interaction
 local function interactWithCrates()
@@ -83,11 +83,11 @@ local function prepareButtons()
 end
 
 -- Function to handle touch interest
-local function fireTouchInterests()
+local function runAutoBuy()
     local player = game:GetService("Players").LocalPlayer
     local tycoonName = player.Values.Plot.Value.Name
 
-    while _G.touchInterest do
+    while _G.autoBuy do
         local playerCharacter = player.Character
         local humanoidRootPart = playerCharacter and playerCharacter:FindFirstChild("HumanoidRootPart")
 
@@ -142,5 +142,10 @@ MainTab.CreateToggle("Enable Auto Buy", function(state)
     end
 end)
 
+MainTab.CreateButton("Anti AFK", function()
+	print("AntiAFK Loaded.")
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk"))()
+end
+
 -- Add a label for clarity
-MainTab.CreateLabel("Toggle auto crate collection, rebirth attempts, and touch interest.")
+MainTab.CreateLabel("Made by Z33N - Last updated on 11/29/2024")
