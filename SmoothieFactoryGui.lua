@@ -17,23 +17,48 @@ _G.touchInterest = false
 _G.completeObbies = false
 
 -- Misc tab
-local MiscTab = Window.CreateTab('Misc')
+-- Reference to the sound object
+local activeSound = nil
 
+-- Button to play "Raining Tacos"
 MiscTab.CreateButton("Play Raining Tacos", function()
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://142376088"
-    sound.Volume = 5
-    sound.Looped = false
-    sound.Parent = game:GetService("Workspace")
+    -- Check if a sound is already playing and stop it first
+    if activeSound then
+        activeSound:Stop()
+        activeSound:Destroy()
+        activeSound = nil
+    end
 
-    sound:Play()
+    -- Create a new Sound object
+    activeSound = Instance.new("Sound")
+    activeSound.SoundId = "rbxassetid://142376088" -- Raining Tacos sound ID
+    activeSound.Volume = 5 -- Set the volume (adjust as needed)
+    activeSound.Looped = false -- Play the sound once
+    activeSound.Parent = game:GetService("Workspace") -- Parent it to the Workspace
 
-    sound.Ended:Connect(function()
-        sound:Destroy()
+    activeSound:Play() -- Play the sound
+
+    -- Automatically remove the reference when the sound ends
+    activeSound.Ended:Connect(function()
+        activeSound:Destroy()
+        activeSound = nil
     end)
 
     print("Playing Raining Tacos!")
 end)
+
+-- Button to stop the music
+MiscTab.CreateButton("Stop Music", function()
+    if activeSound then
+        activeSound:Stop() -- Stop the sound
+        activeSound:Destroy() -- Remove the sound instance
+        activeSound = nil
+        print("Music stopped!")
+    else
+        print("No music is currently playing.")
+    end
+end)
+
 
 
 local function interactWithCrates()
