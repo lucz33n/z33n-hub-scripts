@@ -16,6 +16,26 @@ _G.SMOOTHIEREBIRTH = false
 _G.touchInterest = false
 _G.completeObbies = false
 
+-- Misc tab
+local MiscTab = Window.CreateTab('Misc')
+
+MiscTab.CreateButton("Play Raining Tacos", function()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://142376088"
+    sound.Volume = 5
+    sound.Looped = false
+    sound.Parent = game:GetService("Workspace")
+
+    sound:Play()
+
+    sound.Ended:Connect(function()
+        sound:Destroy()
+    end)
+
+    print("Playing Raining Tacos!")
+end)
+
+
 local function interactWithCrates()
     while _G.SMOOTHIEAUTOCRATES do
         local playerCharacter = game.Players.LocalPlayer.Character
