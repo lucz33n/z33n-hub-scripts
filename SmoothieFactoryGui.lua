@@ -14,6 +14,7 @@ local MainTab = Window.CreateTab('Main Controls')
 _G.SMOOTHIEAUTOCRATES = false
 _G.SMOOTHIEREBIRTH = false
 _G.touchInterest = false
+_G.completeObbies = false
 
 local function interactWithCrates()
     while _G.SMOOTHIEAUTOCRATES do
@@ -97,6 +98,31 @@ local function fireTouchInterests()
     end
 end
 
+local function completeObbies()
+    while _G.completeObbies do
+        local playerCharacter = game.Players.LocalPlayer.Character
+        local humanoidRootPart = playerCharacter and playerCharacter:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            local obbyButtons = {
+                workspace.Obbies.VolcanoObby.Finish.Button,
+                workspace.Obbies.IceCavernObby.Finish.Button,
+                workspace.Obbies.HardObby.Finish.Button,
+                workspace.Obbies.GravityTowerObby.Finish.Button,
+                workspace.Obbies.EasyObby.Finish.Button
+            }
+
+            for _, button in pairs(obbyButtons) do
+                if button:FindFirstChild("TouchInterest") then
+                    firetouchinterest(humanoidRootPart, button, 0)
+                    print("Completed obby: " .. button.Parent.Parent.Name)
+                end
+            end
+        end
+        wait(0.1)
+    end
+end
+
 prepareButtons()
 
 MainTab.CreateToggle("Enable Auto Crates", function(state)
@@ -129,9 +155,19 @@ MainTab.CreateToggle("Enable Auto Buy", function(state)
     end
 end)
 
+MainTab.CreateToggle("Complete Obbies", function(state)
+    _G.completeObbies = state
+    if state then
+        print("Obby Completion Enabled")
+        task.spawn(completeObbies)
+    else
+        print("Obby Completion Disabled")
+    end
+end)
+
 MainTab.CreateButton("Run Anti-AFK Script", function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk.lua'))()
     print("Anti-AFK Script Executed")
 end)
 
-MainTab.CreateLabel("Toggle auto crate collection, rebirth attempts, and touch interest.")
+MainTab.CreateLabel("Toggle auto crate collection, rebirth attempts, obby completion, and touch interest.")
