@@ -58,6 +58,11 @@ MiscTab.CreateButton("Stop Music", function()
         print("No music is currently playing.")
     end
 end)
+--anti afk
+MiscTab.CreateButton("Run Anti-AFK Script", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk.lua'))()
+    print("Anti-AFK Script Executed")
+end)
 
 
 
@@ -211,11 +216,6 @@ MainTab.CreateToggle("Complete Obbies", function(state)
     else
         print("Obby Completion Disabled")
     end
-end)
-
-MiscTab.CreateButton("Run Anti-AFK Script", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/lucz33n/z33n-hub-scripts/refs/heads/main/antiafk.lua'))()
-    print("Anti-AFK Script Executed")
 end)
 
 MainTab.CreateLabel("made by z33n")
