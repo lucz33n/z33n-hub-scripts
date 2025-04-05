@@ -43,26 +43,39 @@ end)
 
 tgls:Seperator()
 
--- === Auto Cleanup and Customer Click Toggle ===
-tgls:Button("Instant Cleanup and Customer Click", function()
-    local success, err = pcall(function()
-        for _, v in ipairs(game:GetService("Workspace"):GetDescendants()) do
-            if v:IsA("ProximityPrompt") then
-                v.HoldDuration = 0
-                v:InputHoldBegin()
-                task.wait(0.05)
-                v:InputHoldEnd()
+-- === Auto ProximityPrompt Instant Toggle ===
+local autoInstantPromptEnabled = false
+
+local function autoInstantPrompt()
+    task.spawn(function()
+        while autoInstantPromptEnabled do
+            local success, err = pcall(function()
+                for _, v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+                    if v.ClassName == "ProximityPrompt" then
+                        v.HoldDuration = 0
+                    end
+                end
+            end)
+
+            if not success then
+                warn("Auto Instant Prompt Error: " .. tostring(err))
             end
+
+            task.wait(0.5) -- refresh delay
         end
     end)
+end
 
-    if success then
-        DiscordLib:Notification("Notification", "Instant cleanup and click executed!", "Done!")
+tgls:Toggle("Auto Instant ProximityPrompt", false, function(bool)
+    autoInstantPromptEnabled = bool
+    if bool then
+        DiscordLib:Notification("Notification", "Auto instant prompt enabled!", "Okay!")
+        autoInstantPrompt()
     else
-        warn("Instant Cleanup Error: " .. tostring(err))
-        DiscordLib:Notification("Error", "An error occurred during cleanup.", "Check Console")
+        DiscordLib:Notification("Notification", "Auto instant prompt disabled!", "Okay!")
     end
 end)
+
 
 
 -- === AutoRestockAll Toggle ===
