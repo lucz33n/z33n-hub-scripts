@@ -18,7 +18,7 @@ local function autoScoops()
 
                 for i = 1, 10 do
                     PublishTopic:FireServer("IceCreamStation1_AddScoop", i)
-                    task.wait(0.05) -- small delay to prevent flood
+                    task.wait(0) -- small delay to prevent flood
                 end
             end)
 
@@ -98,7 +98,11 @@ local function autoTopping()
 
                 for i = 1, 30 do
                     PublishTopic:FireServer("ToppingStation1_DroppedTopping", i)
-                    task.wait(0.05) -- safe delay to prevent crash
+                    task.wait(0) -- safe delay to prevent crash
+                end
+                for i = 1, 30 do
+                    PublishTopic:FireServer("ToppingStation2_DroppedTopping", i)
+                    task.wait(0) -- safe delay to prevent crash
                 end
             end)
 
