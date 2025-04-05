@@ -44,43 +44,26 @@ end)
 tgls:Seperator()
 
 -- === Auto Cleanup and Customer Click Toggle ===
-local autoCleanupEnabled = false
-
-local function autoCleanup()
-    task.spawn(function()
-        while autoCleanupEnabled do
-            local success, err = pcall(function()
-                for _, v in ipairs(game:GetService("Workspace"):GetDescendants()) do
-                    if v:IsA("ProximityPrompt") then
-                        v.HoldDuration = 0
-                        v:InputHoldBegin() -- This simulates holding the prompt
-                        task.wait(0.05)
-                        v:InputHoldEnd() -- And releasing it
-                    end
-                end
-            end)
-
-            if not success then
-                warn("Auto Cleanup Error: " .. tostring(err))
+tgls:Button("Instant Cleanup and Customer Click", function()
+    local success, err = pcall(function()
+        for _, v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+            if v:IsA("ProximityPrompt") then
+                v.HoldDuration = 0
+                v:InputHoldBegin()
+                task.wait(0.05)
+                v:InputHoldEnd()
             end
-
-            task.wait(0.5) -- Adjust delay as needed for performance
         end
     end)
-end
 
-tgls:Toggle("Auto Cleanup and Customer Click", false, function(bool)
-    autoCleanupEnabled = bool
-    if bool then
-        DiscordLib:Notification("Notification", "Auto cleanup started!", "Okay!")
-        autoCleanup()
+    if success then
+        DiscordLib:Notification("Notification", "Instant cleanup and click executed!", "Done!")
     else
-        DiscordLib:Notification("Notification", "Auto cleanup stopped!", "Okay!")
+        warn("Instant Cleanup Error: " .. tostring(err))
+        DiscordLib:Notification("Error", "An error occurred during cleanup.", "Check Console")
     end
 end)
 
-
-tgls:Seperator()
 
 -- === AutoRestockAll Toggle ===
 local autoRestockEnabled = false
